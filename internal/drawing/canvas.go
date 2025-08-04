@@ -24,8 +24,8 @@ func NewStroke() *Stroke {
 	return &Stroke{
 		Points:    make([]Point, 0),
 		Color:     color.RGBA{0, 0, 0, 255}, // Black
-		MinWidth:  1.0,
-		MaxWidth:  8.0,
+		MinWidth:  6.0,                      // 6 pixels minimum width
+		MaxWidth:  8.0,                      // 8 pixels maximum width
 		Completed: false,
 	}
 }

@@ -1,6 +1,8 @@
 package ui
 
 import (
+	"fmt"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -59,15 +61,26 @@ func NewWhiteboardWindow() *WhiteboardWindow {
 // setupUI creates the user interface layout
 func (ww *WhiteboardWindow) setupUI() {
 	// Create minimal toolbar
-	clearButton := widget.NewButton("Clear", func() {
-		ww.canvas.Clear()
+	clearButton := widget.NewButton("Test Draw", func() {
+		// Test: Add a stroke manually to verify the drawing system works
+		testPoint1 := drawing.Point{X: 0.5, Y: 0.2, Pressure: 0.7}
+		testPoint2 := drawing.Point{X: 0.7, Y: 0.6, Pressure: 0.7}
+		ww.canvas.StartStroke(testPoint1)
+		ww.canvas.AddPointToCurrentStroke(testPoint2)
+		ww.canvas.FinishStroke()
 		ww.drawingArea.Refresh()
+		println("Test stroke added manually")
 	})
 
 	saveButton := widget.NewButton("Save", func() {
 		// TODO: Implement save functionality
 		// For now, just show a placeholder
 		dialog.ShowInformation("Save", "Save functionality coming soon!", ww.window)
+	})
+
+	clearButton2 := widget.NewButton("Clear", func() {
+		ww.canvas.Clear()
+		ww.drawingArea.Refresh()
 	})
 
 	quitButton := widget.NewButton("Quit", func() {
@@ -77,6 +90,7 @@ func (ww *WhiteboardWindow) setupUI() {
 	// Create toolbar with minimal buttons
 	toolbar := container.NewHBox(
 		clearButton,
+		clearButton2,
 		saveButton,
 		quitButton,
 		widget.NewSeparator(),
@@ -93,6 +107,9 @@ func (ww *WhiteboardWindow) setupUI() {
 	)
 
 	ww.window.SetContent(content)
+
+	// Make the drawing area focusable and focus it
+	ww.window.Canvas().Focus(ww.drawingArea)
 
 	// Setup keyboard shortcuts
 	ww.setupKeyboardShortcuts()
@@ -129,30 +146,52 @@ func (ww *WhiteboardWindow) ConnectTablet() error {
 
 // processTabletInput continuously reads tablet input
 func (ww *WhiteboardWindow) processTabletInput() {
+	fmt.Println("DEBUG: Starting tablet input processing...")
+
 	for ww.tablet.IsConnected() {
 		penData, err := ww.tablet.ReadPenData()
 		if err != nil {
 			continue // Skip errors and keep trying
 		}
 
+		// Debug output for pen data
+		fmt.Printf("DEBUG: Pen data - X:%d Y:%d Pressure:%d PenDown:%t InRange:%t Button1:%t Button2:%t\n",
+			penData.X, penData.Y, penData.Pressure, penData.PenDown, penData.InRange, penData.Button1, penData.Button2)
+
+		// Special debug output for button presses
+		if penData.Button1 {
+			fmt.Println("DEBUG: *** BUTTON 1 PRESSED ***")
+		}
+		if penData.Button2 {
+			fmt.Println("DEBUG: *** BUTTON 2 PRESSED ***")
+		}
+
 		// Convert to drawing point
 		point := ww.mapper.PenDataToPoint(penData)
 
-		// Handle pen input
-		if penData.PenDown {
+		// Handle pen input - only draw when pen is down AND button 1 is pressed
+		if penData.PenDown && penData.Button1 {
+			fmt.Printf("DEBUG: Drawing! Stylus touching tablet at position (%d, %d) with pressure %d and button pressed\n",
+				penData.X, penData.Y, penData.Pressure)
+
 			if ww.canvas.CurrentStroke == nil {
+				fmt.Println("DEBUG: Starting new stroke")
 				ww.canvas.StartStroke(point)
 			} else {
+				fmt.Println("DEBUG: Adding point to current stroke")
 				ww.canvas.AddPointToCurrentStroke(point)
 			}
 		} else if ww.canvas.CurrentStroke != nil {
-			// Pen lifted, finish stroke
+			// Pen lifted or button released, finish stroke
+			fmt.Println("DEBUG: Pen lifted or button released, finishing stroke")
 			ww.canvas.FinishStroke()
 		}
 
 		// Refresh drawing area
 		ww.drawingArea.Refresh()
 	}
+
+	fmt.Println("DEBUG: Tablet input processing stopped")
 }
 
 // Show displays the window

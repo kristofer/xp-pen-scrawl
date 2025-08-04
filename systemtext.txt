@@ -1,0 +1,147 @@
+USB:
+
+    USB 3.1 Bus:
+
+      Host Controller Driver: AppleT8132USBXHCI
+
+    USB 3.1 Bus:
+
+      Host Controller Driver: AppleT8132USBXHCI
+
+        USB3.0 Hub             :
+
+          Product ID: 0x0817
+          Vendor ID: 0x2109  (VIA Labs, Inc.)
+          Version: f6.03
+          Serial Number: 000000000
+          Speed: Up to 5 Gb/s
+          Manufacturer: VIA Labs, Inc.         
+          Location ID: 0x01200000 / 1
+          Current Available (mA): 900
+          Current Required (mA): 0
+          Extra Operating Current (mA): 0
+
+            VLI Product String:
+
+              Product ID: 0x0715
+              Vendor ID: 0x2109  (VIA Labs, Inc.)
+              Version: f0.00
+              Serial Number: 000000095310
+              Speed: Up to 5 Gb/s
+              Manufacturer: VLI Manufacture String
+              Location ID: 0x01230000 / 4
+              Current Available (mA): 900
+              Current Required (mA): 896
+              Extra Operating Current (mA): 0
+              Media:
+                SSD:
+                  Capacity: 1 TB (1,000,204,886,016 bytes)
+                  Removable Media: No
+                  BSD Name: disk6
+                  Logical Unit: 0
+                  Partition Map Type: GPT (GUID Partition Table)
+                  S.M.A.R.T. status: Verified
+                  USB Interface: 0
+                  Volumes:
+                    EFI:
+                      Capacity: 209.7 MB (209,715,200 bytes)
+                      File System: MS-DOS FAT32
+                      BSD Name: disk6s1
+                      Content: EFI
+                      Volume UUID: 0E239BC6-F960-3107-89CF-1C97F78BB46B
+                    disk6s2:
+                      Capacity: 1 TB (999,995,129,856 bytes)
+                      BSD Name: disk6s2
+                      Content: Apple_APFS
+
+            USB3.0-CRW:
+
+              Product ID: 0x0306
+              Vendor ID: 0x0bda  (Realtek Semiconductor Corp.)
+              Version: 7.00
+              Serial Number: 60000719201300000
+              Speed: Up to 5 Gb/s
+              Manufacturer: Generic
+              Location ID: 0x01220000 / 3
+              Current Available (mA): 900
+              Current Required (mA): 800
+              Extra Operating Current (mA): 0
+
+            USB3.0 Hub             :
+
+              Product ID: 0x0817
+              Vendor ID: 0x2109  (VIA Labs, Inc.)
+              Version: f6.03
+              Serial Number: 000000000
+              Speed: Up to 5 Gb/s
+              Manufacturer: VIA Labs, Inc.         
+              Location ID: 0x01210000 / 6
+              Current Available (mA): 900
+              Current Required (mA): 0
+              Extra Operating Current (mA): 0
+
+        USB2.0 Hub             :
+
+          Product ID: 0x2817
+          Vendor ID: 0x2109  (VIA Labs, Inc.)
+          Version: f6.03
+          Serial Number: 000000000
+          Speed: Up to 480 Mb/s
+          Manufacturer: VIA Labs, Inc.         
+          Location ID: 0x01100000 / 2
+          Current Available (mA): 500
+          Current Required (mA): 0
+          Extra Operating Current (mA): 0
+
+            USB2.0 Hub             :
+
+              Product ID: 0x2817
+              Vendor ID: 0x2109  (VIA Labs, Inc.)
+              Version: f6.03
+              Serial Number: 000000000
+              Speed: Up to 480 Mb/s
+              Manufacturer: VIA Labs, Inc.         
+              Location ID: 0x01110000 / 5
+              Current Available (mA): 500
+              Current Required (mA): 0
+              Extra Operating Current (mA): 0
+
+                6 inch PenTablet:
+
+                  Product ID: 0x0914
+                  Vendor ID: 0x28bd
+                  Version: 0.00
+                  Serial Number: 000000
+                  Speed: Up to 12 Mb/s
+                  Manufacturer: UGTABLET
+                  Location ID: 0x01113000 / 9
+                  Current Available (mA): 500
+                  Current Required (mA): 70
+                  Extra Operating Current (mA): 0
+
+                USB Billboard Device   :
+
+                  Product ID: 0x8817
+                  Vendor ID: 0x2109  (VIA Labs, Inc.)
+                  Version: 0.01
+                  Serial Number: 0000000000000001
+                  Speed: Up to 480 Mb/s
+                  Manufacturer: VIA Labs, Inc.         
+                  Location ID: 0x01115000 / 8
+                  Current Available (mA): 500
+                  Current Required (mA): 100
+                  Extra Operating Current (mA): 0
+
+            USB Billboard Device   :
+
+              Product ID: 0x8817
+              Vendor ID: 0x2109  (VIA Labs, Inc.)
+              Version: 0.01
+              Serial Number: 0000000000000001
+              Speed: Up to 480 Mb/s
+              Manufacturer: VIA Labs, Inc.         
+              Location ID: 0x01150000 / 7
+              Current Available (mA): 500
+              Current Required (mA): 100
+              Extra Operating Current (mA): 0
+

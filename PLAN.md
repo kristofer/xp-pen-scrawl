@@ -20,6 +20,7 @@ The current `main.go` only handles device connection. We need to build the entir
 - [x] **Add Pen Input Handling**: Process tablet input with pressure sensitivity
   - ✅ Implemented pen data processing with pressure and coordinate mapping
   - ✅ Added mouse/stylus GUI input handling (only draws on contact, not hover)
+  - ✅ Fixed line width to 6-8 pixels for consistent black marker appearance
 - [x] **Implement Stroke Rendering**: Draw smooth lines with variable thickness
   - ✅ Created stroke rendering system with pressure-based thickness
 
