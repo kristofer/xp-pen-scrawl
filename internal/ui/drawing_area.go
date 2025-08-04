@@ -16,6 +16,7 @@ type DrawingArea struct {
 	canvas      *drawing.Canvas
 	lines       []*canvas.Line
 	needsUpdate bool
+	isDragging  bool // Track if we're currently dragging
 }
 
 // NewDrawingArea creates a new drawing area widget
@@ -24,6 +25,7 @@ func NewDrawingArea(drawingCanvas *drawing.Canvas) *DrawingArea {
 		canvas:      drawingCanvas,
 		lines:       make([]*canvas.Line, 0),
 		needsUpdate: true,
+		isDragging:  false,
 	}
 	area.ExtendBaseWidget(area)
 	return area
@@ -33,6 +35,91 @@ func NewDrawingArea(drawingCanvas *drawing.Canvas) *DrawingArea {
 func (da *DrawingArea) Refresh() {
 	da.needsUpdate = true
 	da.BaseWidget.Refresh()
+}
+
+// Tapped handles tap events (single click to start drawing)
+func (da *DrawingArea) Tapped(event *fyne.PointEvent) {
+	// Note: This method handles single taps/clicks when the pen/mouse is pressed down
+	// It does NOT fire for hover events - only actual press events
+	// Single tap starts and immediately ends a stroke (for dots)
+	size := da.Size()
+	normalizedX := float64(event.Position.X) / float64(size.Width)
+	normalizedY := float64(event.Position.Y) / float64(size.Height)
+
+	point := drawing.Point{
+		X:        normalizedX,
+		Y:        normalizedY,
+		Pressure: 0.5,
+	}
+
+	// Create a single point stroke
+	da.canvas.StartStroke(point)
+	da.canvas.FinishStroke()
+	da.Refresh()
+}
+
+// MouseDown handles mouse press events (start drawing)
+func (da *DrawingArea) MouseDown(event *fyne.PointEvent) {
+	// This only fires when the mouse/stylus button is actually pressed down
+	// NOT when hovering - ensures drawing only happens on contact
+	da.isDragging = true
+
+	// Convert screen coordinates to normalized coordinates
+	size := da.Size()
+	normalizedX := float64(event.Position.X) / float64(size.Width)
+	normalizedY := float64(event.Position.Y) / float64(size.Height)
+
+	// Create a new point with default pressure for mouse input
+	point := drawing.Point{
+		X:        normalizedX,
+		Y:        normalizedY,
+		Pressure: 0.5, // Default pressure for mouse/stylus without pressure sensitivity
+	}
+
+	// Start a new stroke
+	da.canvas.StartStroke(point)
+	da.Refresh()
+}
+
+// MouseUp handles mouse release events (stop drawing)
+func (da *DrawingArea) MouseUp(event *fyne.PointEvent) {
+	if da.isDragging {
+		da.isDragging = false
+		// Finish the current stroke
+		da.canvas.FinishStroke()
+		da.Refresh()
+	}
+}
+
+// Dragged handles mouse drag events (continue drawing)
+func (da *DrawingArea) Dragged(event *fyne.DragEvent) {
+	if da.isDragging {
+		// Convert screen coordinates to normalized coordinates
+		size := da.Size()
+		normalizedX := float64(event.Position.X) / float64(size.Width)
+		normalizedY := float64(event.Position.Y) / float64(size.Height)
+
+		// Create a new point
+		point := drawing.Point{
+			X:        normalizedX,
+			Y:        normalizedY,
+			Pressure: 0.5, // Default pressure for mouse/stylus
+		}
+
+		// Add point to current stroke
+		da.canvas.AddPointToCurrentStroke(point)
+		da.Refresh()
+	}
+}
+
+// DragEnd handles end of drag events
+func (da *DrawingArea) DragEnd() {
+	if da.isDragging {
+		da.isDragging = false
+		// Finish the current stroke
+		da.canvas.FinishStroke()
+		da.Refresh()
+	}
 }
 
 // CreateRenderer creates the renderer for this widget
